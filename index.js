@@ -54,19 +54,34 @@ function simpan() {
   // fungsi untuk menyimpan data
   console.log("Silahkan Masukan Data ! : ");
   readline.question("Nama :", (nama) => {
-    objectKontak.nama = nama;
-    console.log(`Input data berhasil ! :${nama}`);
-    ambilInputanNomor();
+    //validasi untuk nama harus berupa string
+    let validasi = /^[^\d]+$/;
+    if (validasi.test(nama)) {
+      objectKontak.nama = nama;
+      console.log(`Input data berhasil ! :${nama}`);
+      ambilInputanNomor();
+    }
+    else{
+        console.log("Nama harus berupa string");
+        kembali()
+    }
   });
 }
 const ambilInputanNomor = () => {
   // fungsi untuk mengambil inputan nomor
   readline.question("Nomor :", (nomor) => {
-    objectKontak.nomorHp = nomor;
-    databaseKontak.push(Object.assign({}, objectKontak)); // insert data kedalam array databseKOntak
+    const ubahTipedata = parseInt(nomor);
+    //validasi inputan nomor harus berupa angka
+    if (!isNaN(ubahTipedata)) {
+      objectKontak.nomorHp = ubahTipedata;
+      databaseKontak.push(Object.assign({}, objectKontak)); // insert data kedalam array databseKOntak
+    } else {
+      console.log("Nomor harus berupa angka");
+    }
     kembali();
   });
 };
+
 const kembali = () => {
   // fungsi untuk navigasi kembali
   readline.question("Apakah Anda Ingin Kembali ? (y/n) :", (pilihan) => {
